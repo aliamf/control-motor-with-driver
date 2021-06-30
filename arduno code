@@ -1,0 +1,51 @@
+#define enA 9
+#define in1 6
+#define in2 7
+#define enB 10
+#define in3 12
+#define in4 5
+int motorSpeedA = 0;
+int motorSpeedB = 0;
+int rotDirection = 0;
+
+int pressed = false;
+void setup() {
+  pinMode(enA, OUTPUT);
+  pinMode(enB, OUTPUT);
+  pinMode(in1, OUTPUT);
+  pinMode(in2, OUTPUT);
+  pinMode(in3, OUTPUT);
+  pinMode(in4, OUTPUT);
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, HIGH);
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, HIGH);
+}
+
+void loop() {
+  int pot = analogRead(A0); 
+  int pwmOutput = map(potValue, 0, 1023, 0 , 255);
+  analogWrite(enA, pwmOutput); 
+  analogWrite(enB, pwmOutput); 
+  if (digitalRead(button) == true) {
+    pressed = !pressed;
+  }
+  while (digitalRead(button) == true);
+  delay(20);
+  if (pressed == true  & rotDirection == 0) {
+    digitalWrite(in1, HIGH);
+    digitalWrite(in2, LOW);
+    digitalWrite(in3, HIGH);
+    digitalWrite(in4, LOW);
+    rotDirection = 1;
+    delay(20);
+  }
+  if (pressed == false & rotDirection == 1) {
+    digitalWrite(in1, LOW);
+    digitalWrite(in2, HIGH);
+    digitalWrite(in3, LOW);
+    digitalWrite(in4, HIGH);
+    rotDirection = 0;
+    delay(20);
+  }
+}
